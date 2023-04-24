@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes';
+import { ConfigProvider} from 'antd';
+import theme from './theme.json'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ConfigProvider theme={theme}>
+    <RouterProvider router={router}/>
+    </ConfigProvider>
   </React.StrictMode>
 );
 
