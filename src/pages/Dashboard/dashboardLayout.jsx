@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useNavigate, useOutlet } from "react-router-dom";
 
-import { Layout, Menu, theme } from "antd";
+import { Avatar, Layout, Menu, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 
@@ -16,20 +17,27 @@ import {
   AiOutlineHome,
   AiFillThunderbolt,
 } from "react-icons/ai";
-import { Outlet } from "react-router-dom";
+import { MdNotifications } from "react-icons/md";
+
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorPrimaryBg },
   } = theme.useToken();
+  const outlet = useOutlet();
+  const navigate = useNavigate();
   const items = [
-    getItem(<AiOutlinePieChart />, "Statistics", "/dashboardPage"),
+    getItem(<AiOutlinePieChart />, "Statistics", "/dashboard"),
     getItem(<AiOutlineDatabase />, "Complaints", "sub1", [
-      getItem(<AiOutlineHourglass />, "Pending", "2"),
-      getItem(<AiOutlineCheckCircle />, "Solve", "3"),
-      getItem(<AiOutlineRedo />, "Ongoing", "4"),
-      getItem(<AiOutlineWarning />, "Abusive", "5"),
-      getItem(<AiOutlineQuestion />, "Not Applicable", "6"),
+      getItem(<AiOutlineHourglass />, "Pending", "/dashboard/pending"),
+      getItem(<AiOutlineCheckCircle />, "Solved", "/dashboard/solved"),
+      getItem(<AiOutlineRedo />, "Ongoing", "/dashboard/ongoing"),
+      getItem(<AiOutlineWarning />, "Abusive", "/dashboard/abusive"),
+      getItem(
+        <AiOutlineQuestion />,
+        "Not Applicable",
+        "/dashboard/not-applicable"
+      ),
     ]),
     getItem(<AiOutlineOrderedList />, "Departments", "sub2", [
       getItem(<AiOutlineHome />, "DPWH", "7"),
@@ -45,7 +53,9 @@ const Dashboard = () => {
       label,
     };
   }
-
+  const handleMenuclick = ({ key }) => {
+    navigate(key);
+  };
   return (
     <Layout
       style={{
@@ -59,11 +69,16 @@ const Dashboard = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="flex items-center w-full justify-center mt-5">
-          <img src="/Calbayog_City_seal_2.svg.png" width={150} />
+          <img
+            src="/Calbayog_City_seal_2.svg.png"
+            width={150}
+            alt="Calbayog Logo"
+          />
         </div>
         <Menu
           defaultSelectedKeys={["1"]}
           items={items}
+          onClick={handleMenuclick}
           mode="inline"
           style={{
             backgroundColor: colorPrimaryBg,
@@ -72,10 +87,16 @@ const Dashboard = () => {
         />
       </Sider>
       <Layout>
-        <Header style={{ backgroundColor: colorPrimaryBg }}></Header>
-        <Content>
-          <Outlet />
-        </Content>
+        <Header
+          style={{ backgroundColor: colorPrimaryBg }}
+          className=" flex items-center justify-end"
+        >
+          <div className="flex gap-5">
+            <MdNotifications fontSize={25} />
+            <Avatar src="/Calbayog_City_seal_2.svg.png" />
+          </div>
+        </Header>
+        <Content>{outlet}</Content>
       </Layout>
     </Layout>
   );
