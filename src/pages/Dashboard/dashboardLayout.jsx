@@ -4,16 +4,11 @@ import { useNavigate, useOutlet } from "react-router-dom";
 import { Avatar, Layout, Menu, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-
+import { complaints, MyContext } from "../../context/context";
 import {
   AiOutlinePieChart,
   AiOutlineOrderedList,
   AiOutlineDatabase,
-  AiOutlineWarning,
-  AiOutlineCheckCircle,
-  AiOutlineHourglass,
-  AiOutlineRedo,
-  AiOutlineQuestion,
   AiOutlineHome,
   AiFillThunderbolt,
 } from "react-icons/ai";
@@ -27,18 +22,8 @@ const Dashboard = () => {
   const outlet = useOutlet();
   const navigate = useNavigate();
   const items = [
-    getItem(<AiOutlinePieChart />, "Statistics", "/dashboard"),
-    getItem(<AiOutlineDatabase />, "Complaints", "sub1", [
-      getItem(<AiOutlineHourglass />, "Pending", "/dashboard/pending"),
-      getItem(<AiOutlineCheckCircle />, "Solved", "/dashboard/solved"),
-      getItem(<AiOutlineRedo />, "Ongoing", "/dashboard/ongoing"),
-      getItem(<AiOutlineWarning />, "Abusive", "/dashboard/abusive"),
-      getItem(
-        <AiOutlineQuestion />,
-        "Not Applicable",
-        "/dashboard/not-applicable"
-      ),
-    ]),
+    getItem(<AiOutlinePieChart />, "Statistics", "/dashboard/statistics"),
+    getItem(<AiOutlineDatabase />, "Complaints", "/dashboard/complaints"),
     getItem(<AiOutlineOrderedList />, "Departments", "sub2", [
       getItem(<AiOutlineHome />, "DPWH", "7"),
       getItem(<AiFillThunderbolt />, "SAMELCO", "8"),

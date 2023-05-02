@@ -14,23 +14,25 @@ function App() {
   const handleRegisterClick = () => {
     navigate("/register")
   }
+  
   return (
-    <Layout style={{
-      minHeight: "100vh"}}
-      className="flex"
-    >
-      <Header 
-        style={{ backgroundColor: colorPrimaryBg}} 
-        className=" flex items-center justify-end gap-5" 
-      >  
-        <Button onClick={handleLoginClick} className=" bg-blue-500" type='primary'>Login</Button>
-        <Button onClick={handleRegisterClick} className=" bg-blue-500" type='primary'>Register</Button>
-      </Header>
-      <div className='flex items-center justify-center mt-10'>
-        <img src='/Calbayog_City_seal_2.svg.png' width={500} alt="Calbayog Logo"/>
-      </div>
+
+      <Layout style={{
+        minHeight: "100vh"}}
+        className="flex"
+      >
+        <Header 
+          style={{ backgroundColor: colorPrimaryBg}} 
+          className=" flex items-center justify-end gap-5" 
+        >  
+          <Button onClick={handleLoginClick} className=" bg-blue-500" type='primary'>Login</Button>
+          <Button onClick={handleRegisterClick} className=" bg-blue-500" type='primary'>Register</Button>
+        </Header>
+        <div className='flex items-center justify-center mt-10'>
+          <img src='/Calbayog_City_seal_2.svg.png' width={500} alt="Calbayog Logo"/>
+        </div>
         <Outlet />
-    </Layout>
+      </Layout>
   );
 }
 

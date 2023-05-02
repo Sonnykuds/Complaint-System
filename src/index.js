@@ -6,12 +6,15 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
 import { ConfigProvider} from 'antd';
 import theme from './theme.json'
-
+import { complaints, MyContext } from './context/context';
+const value = new complaints()
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ConfigProvider theme={theme}>
+    <MyContext.Provider value={value}>
     <RouterProvider router={router}/>
+    </MyContext.Provider>
     </ConfigProvider>
   </React.StrictMode>
 );

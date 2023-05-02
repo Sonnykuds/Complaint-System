@@ -15,9 +15,16 @@ const NotFoundPage = () => {
     navigate("/dashboard"); // user role here
   };
   return (
-    <Space className="h-screen w-screen flex justify-center items-center">
+    <div className="h-screen  flex justify-center items-center">
       <Result
-        icon={<img src="/404-error.png" alt="Page not foud!" />}
+        icon={
+          <img
+            src="/404-error.png"
+            alt="Page not foud!"
+            width={400}
+            className=" w-full"
+          />
+        }
         title="Oops! This page could not be found."
         subTitle="The page you are looking for might have removed, had its name changed,or its temporarily unavailable"
         extra={
@@ -26,16 +33,22 @@ const NotFoundPage = () => {
               size="large"
               type="primary"
               onClick={handleGoBackButtonClick}
+              className=" bg-blue-500"
             >
               Go Back
             </Button>
-            <Button size="large" type="text" onClick={handleHompageButtonClick}>
+            <Button
+              size="large"
+              type="primary"
+              className=" bg-blue-500"
+              onClick={handleHompageButtonClick}
+            >
               Homepage
             </Button>
           </Space>
         }
       />
-    </Space>
+    </div>
   );
 };
 
