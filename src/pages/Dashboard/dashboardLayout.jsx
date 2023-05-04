@@ -4,7 +4,6 @@ import { useNavigate, useOutlet } from "react-router-dom";
 import { Avatar, Layout, Menu, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { complaints, MyContext } from "../../context/context";
 import {
   AiOutlinePieChart,
   AiOutlineOrderedList,
@@ -24,11 +23,6 @@ const Dashboard = () => {
   const items = [
     getItem(<AiOutlinePieChart />, "Statistics", "/dashboard/statistics"),
     getItem(<AiOutlineDatabase />, "Complaints", "/dashboard/complaints"),
-    getItem(<AiOutlineOrderedList />, "Departments", "sub2", [
-      getItem(<AiOutlineHome />, "DPWH", "7"),
-      getItem(<AiFillThunderbolt />, "SAMELCO", "8"),
-      getItem(<AiOutlineHome />, "DEPED", "9"),
-    ]),
   ];
   function getItem(icon, label, key, children) {
     return {

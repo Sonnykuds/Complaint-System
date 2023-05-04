@@ -24,7 +24,6 @@ const AddComplaintsForm = ({ handleCancel }) => {
     submitComplaint({
       message: values.message,
       department: values.department,
-      status: values.status,
       date: values.date.format("MMMM DD YYYY"),
     });
     setIsModalOpen(isModalOpen);
@@ -43,19 +42,6 @@ const AddComplaintsForm = ({ handleCancel }) => {
           <Select
             placeholder="Select Department"
             options={department}
-            showSearch
-            onChange={handleOnChange}
-            onSearch={handleOnSearch}
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-            }
-          />
-        </Form.Item>
-        <Form.Item name="status" rules={rules.status}>
-          <Select
-            placeholder="Select Status"
-            options={status}
             showSearch
             onChange={handleOnChange}
             onSearch={handleOnSearch}

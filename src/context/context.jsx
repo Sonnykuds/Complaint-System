@@ -36,7 +36,11 @@ export class complaints {
     });
   }
   submitComplaint = (complaint) => {
-    this.complaint.push({ ...complaint, key: this.complaint.length });
+    this.complaint.push({
+      ...complaint,
+      key: this.complaint.length,
+      status: "Pending",
+    });
   };
   setIsModalOpen = () => {
     this.isModalOpen = !this.isModalOpen;
@@ -44,7 +48,12 @@ export class complaints {
   setSelectedRows = (rows) => {
     this.selectedRows = rows;
   };
-  // editStatus = (edit) => {
-
-  // }
+  editStatus = (id, edit) => {
+    this.complaint.map((comp) => {
+      if (comp.key === id) {
+        comp.status = edit;
+      }
+      return comp;
+    });
+  };
 }

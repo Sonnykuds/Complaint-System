@@ -1,12 +1,20 @@
 import { Button, Modal, Form, Table, Tooltip, Select } from "antd";
+import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
 import { MyContext } from "../context/context";
-const ComplaintsTable = () => {
+const ComplaintsTable = ({ filter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const { complaint, setSelectedRows, selectedRows, status } =
+  const [selectedID, setSelectedID] = useState(null);
+  const { complaint, setSelectedRows, selectedRows, status, editStatus } =
     useContext(MyContext);
+  let filteredComplaint = complaint.filter((comp) => {
+    return comp.department === filter;
+  });
+  if (filter === null) {
+    filteredComplaint = complaint;
+  }
   const columns = [
     {
       title: "Department",
@@ -20,58 +28,60 @@ const ComplaintsTable = () => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (status) => (
-        <div className=" flex gap-8">
-          <Tooltip title={() => <div>Edit Status</div>}>
-            {status === "Ongoing" && (
-              <Button
-                type="primary"
-                className=" flex items-center rounded-full bg-blue-500"
-                onClick={handleOpenModal}
-              >
-                {status}
-              </Button>
-            )}
-            {status === "Pending" && (
-              <Button
-                type="primary"
-                className=" flex items-center rounded-full bg-red-500"
-                onClick={handleOpenModal}
-              >
-                {status}
-              </Button>
-            )}
+      render: (status, all) => {
+        return (
+          <div className=" flex gap-8">
+            <Tooltip title={() => <div>Edit Status</div>}>
+              {status === "Ongoing" && (
+                <Button
+                  type="primary"
+                  className=" flex items-center rounded-full bg-blue-500"
+                  onClick={() => handleOpenModal(all)}
+                >
+                  {status}
+                </Button>
+              )}
+              {status === "Pending" && (
+                <Button
+                  type="primary"
+                  className=" flex items-center rounded-full bg-red-500"
+                  onClick={() => handleOpenModal(all)}
+                >
+                  {status}
+                </Button>
+              )}
 
-            {status === "Solved" && (
-              <Button
-                type="primary"
-                className=" flex items-center rounded-full bg-green-600"
-                onClick={handleOpenModal}
-              >
-                {status}
-              </Button>
-            )}
-            {status === "Abusive" && (
-              <Button
-                type="primary"
-                className=" flex items-center rounded-full bg-red-400"
-                onClick={handleOpenModal}
-              >
-                {status}
-              </Button>
-            )}
-            {status === "Not Applicable" && (
-              <Button
-                type="primary"
-                className=" flex items-center rounded-full bg-gray-600"
-                onClick={handleOpenModal}
-              >
-                {status}
-              </Button>
-            )}
-          </Tooltip>
-        </div>
-      ),
+              {status === "Solved" && (
+                <Button
+                  type="primary"
+                  className=" flex items-center rounded-full bg-green-600"
+                  onClick={() => handleOpenModal(all)}
+                >
+                  {status}
+                </Button>
+              )}
+              {status === "Abusive" && (
+                <Button
+                  type="primary"
+                  className=" flex items-center rounded-full bg-slate-400"
+                  onClick={() => handleOpenModal(all)}
+                >
+                  {status}
+                </Button>
+              )}
+              {status === "Not Applicable" && (
+                <Button
+                  type="primary"
+                  className=" flex items-center rounded-full bg-gray-700"
+                  onClick={() => handleOpenModal(all)}
+                >
+                  {status}
+                </Button>
+              )}
+            </Tooltip>
+          </div>
+        );
+      },
     },
     {
       title: "Date",
@@ -87,8 +97,9 @@ const ComplaintsTable = () => {
   const rules = {
     status: [{ required: true }],
   };
-  const handleOpenModal = () => {
-    return setIsModalOpen(true);
+  const handleOpenModal = (all) => {
+    setIsModalOpen(true);
+    setSelectedID(all.key);
   };
   const handleCancel = () => {
     return setIsModalOpen(false);
@@ -100,15 +111,15 @@ const ComplaintsTable = () => {
     return value;
   };
   const handleEditStatus = (edit) => {
-    setIsModalOpen(isModalOpen);
+    editStatus(selectedID, edit.status);
+    setIsModalOpen(!isModalOpen);
     form.resetFields();
-    console.log(edit);
   };
   return (
     <div className=" gap-3 flex items-center justify-center ">
       <Table
         className="lg:block m-5 mt-0 w-full "
-        dataSource={[...complaint]}
+        dataSource={[...filteredComplaint]}
         columns={columns}
         rowSelection={rowSelection}
       />

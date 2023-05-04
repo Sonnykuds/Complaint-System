@@ -1,12 +1,13 @@
 import { Button, Card, Select } from "antd";
 import { observer } from "mobx-react-lite";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AddComplaintsForm from "../../Components/AddComplaintForm";
 import ComplaintsTable from "../../Components/ComplaintsTable";
 import { MyContext } from "../../context/context";
 
 const Complaints = () => {
   const { setIsModalOpen, department } = useContext(MyContext);
+  const [filter, setFilter] = useState(null);
   const handleOpenModal = () => {
     return setIsModalOpen(true);
   };
@@ -19,6 +20,9 @@ const Complaints = () => {
   const handleOnSearch = (value) => {
     return value;
   };
+  const handleOnSelect = (value) => {
+    setFilter(value);
+  };
   return (
     <>
       <Card className=" m-5">
@@ -29,16 +33,12 @@ const Complaints = () => {
           <div className="block lg:flex items-center gap-5">
             <Select
               placeholder="Select Department"
-              options={department}
+              options={[{ label: "All", value: null }, ...department]}
               showSearch
               onChange={handleOnChange}
               onSearch={handleOnSearch}
+              onSelect={handleOnSelect}
               optionFilterProp="children"
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
               className="flex w-52"
             />
             <Button
@@ -52,7 +52,7 @@ const Complaints = () => {
           </div>
         </div>
       </Card>
-      <ComplaintsTable />
+      <ComplaintsTable filter={filter} />
     </>
   );
 };
