@@ -1,4 +1,4 @@
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, theme } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useNavigate } from "react-router-dom";
 import { LockOutlined } from "@ant-design/icons";
@@ -6,7 +6,9 @@ import FormLayout from "../Components/FormLayout";
 const Register = () => {
   const navigate = useNavigate();
   const [form] = useForm();
-
+  const {
+    token: { colorPrimary },
+  } = theme.useToken();
   const handleRegisterForm = () => {
     navigate("/dashboard");
   };
@@ -39,12 +41,17 @@ const Register = () => {
             />
           </Form.Item>
           <div className="flex justify-center">
-            <Button type="primary" htmlType="sumbit" className=" w-full">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className=" w-full"
+              style={{ backgroundColor: colorPrimary }}
+            >
               Register
             </Button>
           </div>
           <div className="flex justify-between  italic">
-            <a href="/Login" className="text-blue-600">
+            <a href="/Login" cstyle={{ backgroundColor: colorPrimary }}>
               Already have an account?
             </a>
           </div>

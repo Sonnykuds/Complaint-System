@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Table, Tooltip, Select } from "antd";
+import { Button, Modal, Form, Table, Tooltip, Select, theme } from "antd";
 import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
@@ -9,6 +9,15 @@ const ComplaintsTable = ({ filter }) => {
   const [selectedID, setSelectedID] = useState(null);
   const { complaint, setSelectedRows, selectedRows, status, editStatus } =
     useContext(MyContext);
+  const {
+    token: {
+      colorPrimary,
+      colorError,
+      colorSuccessText,
+      colorTextSecondary,
+      colorText,
+    },
+  } = theme.useToken();
   let filteredComplaint = complaint.filter((comp) => {
     return comp.department === filter;
   });
@@ -35,7 +44,8 @@ const ComplaintsTable = ({ filter }) => {
               {status === "Ongoing" && (
                 <Button
                   type="primary"
-                  className=" flex items-center rounded-full bg-blue-500"
+                  className=" flex items-center rounded-full "
+                  style={{ backgroundColor: colorPrimary }}
                   onClick={() => handleOpenModal(all)}
                 >
                   {status}
@@ -44,7 +54,8 @@ const ComplaintsTable = ({ filter }) => {
               {status === "Pending" && (
                 <Button
                   type="primary"
-                  className=" flex items-center rounded-full bg-red-500"
+                  className=" flex items-center rounded-full"
+                  style={{ backgroundColor: colorError }}
                   onClick={() => handleOpenModal(all)}
                 >
                   {status}
@@ -54,7 +65,8 @@ const ComplaintsTable = ({ filter }) => {
               {status === "Solved" && (
                 <Button
                   type="primary"
-                  className=" flex items-center rounded-full bg-green-600"
+                  className=" flex items-center rounded-full"
+                  style={{ backgroundColor: colorSuccessText }}
                   onClick={() => handleOpenModal(all)}
                 >
                   {status}
@@ -63,7 +75,8 @@ const ComplaintsTable = ({ filter }) => {
               {status === "Abusive" && (
                 <Button
                   type="primary"
-                  className=" flex items-center rounded-full bg-slate-400"
+                  className=" flex items-center rounded-full "
+                  style={{ backgroundColor: colorTextSecondary }}
                   onClick={() => handleOpenModal(all)}
                 >
                   {status}
@@ -72,7 +85,8 @@ const ComplaintsTable = ({ filter }) => {
               {status === "Not Applicable" && (
                 <Button
                   type="primary"
-                  className=" flex items-center rounded-full bg-gray-700"
+                  className=" flex items-center rounded-full"
+                  style={{ backgroundColor: colorText }}
                   onClick={() => handleOpenModal(all)}
                 >
                   {status}
@@ -116,39 +130,45 @@ const ComplaintsTable = ({ filter }) => {
     form.resetFields();
   };
   return (
-    <div className=" gap-3 flex items-center justify-center ">
-      <Table
-        className="lg:block m-5 mt-0 w-full "
-        dataSource={[...filteredComplaint]}
-        columns={columns}
-        rowSelection={rowSelection}
-      />
-      <Modal open={isModalOpen} footer={[]}>
-        <Form form={form} onFinish={handleEditStatus}>
-          <Form.Item name="status" rules={rules.status}>
-            <Select
-              placeholder="Select Status"
-              options={status}
-              showSearch
-              onChange={handleOnChange}
-              onSearch={handleOnSearch}
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-            />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" className=" bg-blue-500">
-            Save
-          </Button>
-          <Button onClick={handleCancel} className=" bg-gray-400">
-            Cancel
-          </Button>
-        </Form>
-      </Modal>
-    </div>
+    <>
+      <div className=" gap-3 flex items-center justify-center ">
+        <Table
+          className="lg:block m-5 mt-0 w-full "
+          dataSource={[...filteredComplaint]}
+          columns={columns}
+          rowSelection={rowSelection}
+        />
+        <Modal open={isModalOpen} footer={[]}>
+          <Form form={form} onFinish={handleEditStatus}>
+            <Form.Item name="status" rules={rules.status}>
+              <Select
+                placeholder="Select Status"
+                options={status}
+                showSearch
+                onChange={handleOnChange}
+                onSearch={handleOnSearch}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
+            </Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ backgroundColor: colorPrimary }}
+            >
+              Save
+            </Button>
+            <Button onClick={handleCancel} className=" bg-gray-400">
+              Cancel
+            </Button>
+          </Form>
+        </Modal>
+      </div>
+    </>
   );
 };
 

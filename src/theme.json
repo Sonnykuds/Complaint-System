@@ -1,5 +1,12 @@
 {
   "theme": {
-    "colorPrimaryBg": "white"
+    "colorPrimaryBg": "",
+    "colorPrimary": "",
+    "colorError": "",
+    "colorSuccessText": "",
+    "colorTextSecondary": "",
+    "colorText": "",
+    "colorInfoTextActive": "",
+    "colorErrorTextActive": ""
   }
 }

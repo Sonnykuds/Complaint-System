@@ -14,6 +14,7 @@ import {
 import { Bar, Pie } from "react-chartjs-2";
 import { observer } from "mobx-react";
 import moment from "moment/moment";
+import { theme } from "antd";
 
 ChartJS.register(
   ArcElement,
@@ -27,6 +28,16 @@ ChartJS.register(
 );
 const Statistics = () => {
   const { complaint, department, status } = useContext(MyContext);
+  const {
+    token: {
+      colorPrimary,
+      colorError,
+      colorSuccessText,
+      colorTextSecondary,
+      colorText,
+      colorSuccessActive,
+    },
+  } = theme.useToken();
   const options = {
     responsive: true,
     plugins: {
@@ -47,7 +58,7 @@ const Statistics = () => {
       },
       title: {
         display: true,
-        text: "Total Number of Complaints",
+        text: "",
       },
     },
     scales: {
@@ -160,18 +171,18 @@ const Statistics = () => {
           return count;
         }),
         backgroundColor: [
-          "rgba(255, 80, 0)",
-          "rgba(55, 160, 235)",
-          "rgba(60, 180, 113)",
-          "rgba(210, 210, 210)",
-          "rgba(90, 90, 90)",
+          colorError,
+          colorPrimary,
+          colorSuccessText,
+          colorTextSecondary,
+          colorText,
         ],
         borderColor: [
-          "rgba(255, 80, 0, 1)",
-          "rgba(55, 160, 235, 1)",
-          "rgba(60, 180, 113, 1)",
-          "rgba(210, 210, 210, 1)",
-          "rgba(90, 90, 90, 1)",
+          colorError,
+          colorPrimary,
+          colorSuccessText,
+          colorTextSecondary,
+          colorText,
         ],
       },
     ],
@@ -190,8 +201,8 @@ const Statistics = () => {
           });
           return count;
         }),
-        backgroundColor: ["rgba(60, 180, 113)"],
-        borderColor: ["rgba(60, 180, 113, 1)"],
+        backgroundColor: colorSuccessActive,
+        borderColor: colorSuccessActive,
       },
     ],
   };
